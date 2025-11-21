@@ -1,2 +1,4 @@
 a,badmin,$2b$12$FKEztCbwXXJAONM1AoPKBOG74NxVdNQFnIllDRVoouF6OSXHkUkg2
 admin,$2b$12$nm/XUaEBZ7RzyfLVJqcoKeq03nQZ.Ke/cDXKWEk6/HePRc8eGkdIS
+admin,$2b$12$A8nhOMnVDqcNPSlID9muJuKrqJNwYObLry0NI6DAgr9ugdnq/HLBy
+admin,$2b$12$jH6xSVW7QqMOq9q5yPm2ku8Siivff3rsIuViYd5EHPIbaqKI8Scxq
