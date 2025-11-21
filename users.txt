@@ -1,0 +1,2 @@
+a,badmin,$2b$12$FKEztCbwXXJAONM1AoPKBOG74NxVdNQFnIllDRVoouF6OSXHkUkg2
+admin,$2b$12$nm/XUaEBZ7RzyfLVJqcoKeq03nQZ.Ke/cDXKWEk6/HePRc8eGkdIS
