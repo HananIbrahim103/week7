@@ -16,30 +16,21 @@ def verify_password(password, hashed_password):
     #bycrypt.checkpw handles extracting the salt and comparing
     return bcrypt.checkpw(password_bytes, hashed_password_bytes)
 
-def register_user(username, password):
-    with open("users.txt", "r") as f:
-        for line in f.readlines():
-            user, hashed_password = line.strip().split(",", 1)
-            if user == username:
-                print("User already registered")
-                return False
-            else:
-                hashed_password = hash_password(password)
-                with open("users.txt", "a") as file:
-                    file.write(f"{username},{hashed_password}\n")
-                print(f"User {username} registered")
-                return True
-        return True
+def register_user(username, role, password):
+    hashed_password = hash_password(password)
+    with open("users.txt", "a") as file:
+        file.write(f"{username}, {role}, {hashed_password}\n")
+    print(f"User {username} registered")
+    return True
 
 def user_exists(username):
     try:
         with open("users.txt", "r") as f:
             for line in f.readlines():
-                user, hashed_password = line.strip().split(",", 1)
+                user, role = line.strip().split(",", 1)
                 if user == username:
-                    print(f"User {username} exists")
+                    print(f"User {username} exists already")
                     return True
-            print(f"User {username} does not exist")
             return False
     except FileNotFoundError:
         with open("users.txt", "a") as f:
@@ -51,14 +42,13 @@ def user_exists(username):
 def login_user(username, password):
     with open("users.txt", "r") as f:
         for line in f.readlines():
-            user, hashed_password = line.strip().split(",", 1)
-            if user == username:
-                if verify_password(password, hashed_password):
-                    print("User Logged in")
-                    return True
-                else:
-                    print("Incorrect password or username. Try again")
-                    return False
+            parts = line.strip().split(",", 2)
+            if len(parts) == 3:
+                user, role, hashed_password = parts
+                if user == username:
+                    if verify_password(password, hashed_password.strip()):
+                        print("User Logged in")
+                        return True
     return False
 
 def validate_username(username):
@@ -103,6 +93,7 @@ def main():
          # Registration flow
          print("\n--- USER REGISTRATION ---")
          username = input("Enter a username: ").strip()
+         role = input("Enter your role: ").strip()
 
          # Validate username
          is_valid, error_msg = validate_username(username)
@@ -110,6 +101,9 @@ def main():
              print(f"Error: {error_msg}")
              continue
          password = input("Enter a password: ").strip()
+
+         if user_exists(username):
+             continue
 
         # Validate password
          is_valid, error_msg = validate_password(password)
@@ -124,7 +118,7 @@ def main():
              continue
 
          # Register the user
-         register_user(username, password)
+         register_user(username, role, password)
 
      elif choice == '2':
          # Login flow
@@ -137,6 +131,8 @@ def main():
              print("(In a real application, you would now access the database)")
 
              input("\nPress Enter to return to main menu...")
+         else:
+             print("\nError: Invalid username or password. Please try again.")
 
      elif choice == '3':
          # Exit
